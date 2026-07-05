@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memnosyne México · Red Cultural</title>
+    <!-- Fuente Google Fonts (estilo mexicano) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto+Slab:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET Y ESTILOS GLOBALES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto Slab', serif;
+            background: var(--body-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background 0.6s ease, color 0.6s ease;
+        }
+
+        /* ===== VARIABLES CSS (por defecto tema Tolteca) ===== */
+        :root {
+            --body-bg: #fcf7f0;
+            --text-color: #3e2c1b;
+            --header-bg: linear-gradient(135deg, #8b1e1e 0%, #bf3a2b 40%, #d98c2e 100%);
+            --header-border: #f4c542;
+            --accent-color: #f4c542;
+            --primary-dark: #6b2e1a;
+            --card-border: #b3472a;
+            --card-bg-active: #fcf3e9;
+            --card-bg: white;
+            --footer-border: #f4c542;
+            --btn-bg: #6b2e1a;
+            --btn-hover: #b3472a;
+            --info-border: #f4c542;
+            --info-bg: #fffaf2;
+            --link-color: #f4c542;
+            --shadow-color: rgba(0,0,0,0.1);
+            --presentacion-border: #b3472a;
+            --presentacion-bg: #fffaf2;
+            --descripcion-bg: #f4ede4;
+            --carrusel-controls-bg: #f4ede4;
+        }
+
+        /* ===== TEMAS POR ENTIDAD ===== */
+        body.theme-tolteca {
+            --body-bg: #fcf7f0;
+            --text-color: #3e2c1b;
+            --header-bg: linear-gradient(135deg, #8b1e1e 0%, #bf3a2b 40%, #d98c2e 100%);
+            --header-border: #f4c542;
+            --accent-color: #f4c542;
+            --primary-dark: #6b2e1a;
+            --card-border: #b3472a;
+            --card-bg-active: #fcf3e9;
+            --card-bg: white;
+            --footer-border: #f4c542;
+            --btn-bg: #8b1e1e;
+            --btn-hover: #bf3a2b;
+            --info-border: #f4c542;
+            --info-bg: #fffaf2;
+            --link-color: #f4c542;
+            --shadow-color: rgba(0,0,0,0.1);
+            --presentacion-border: #b3472a;
+            --presentacion-bg: #fffaf2;
+            --descripcion-bg: #f4ede4;
+            --carrusel-controls-bg: #f4ede4;
+        }
+
+        body.theme-memnosyne {
+            --body-bg: #eef6f5;
+            --text-color: #1a3b3f;
+            --header-bg: linear-gradient(135deg, #0f2a43 0%, #1f5a6b 40%, #3d9a8f 100%);
+            --header-border: #7bc3c4;
+            --accent-color: #7bc3c4;
+            --primary-dark: #154f5c;
+            --card-border: #2a7a8c;
+            --card-bg-active: #ddf0f0;
+            --card-bg: #ffffff;
+            --footer-border: #7bc3c4;
+            --btn-bg: #1f5a6b;
+            --btn-hover: #3d9a8f;
+            --info-border: #7bc3c4;
+            --info-bg: #f0f9f8;
+            --link-color: #7bc3c4;
+            --shadow-color: rgba(31,90,107,0.15);
+            --presentacion-border: #2a7a8c;
+            --presentacion-bg: #f0f9f8;
+            --descripcion-bg: #ddf0f0;
+            --carrusel-controls-bg: #ddf0f0;
+        }
+
+        body.theme-ukuuchil {
+            --body-bg: #f2f7ee;
+            --text-color: #1e3b22;
+            --header-bg: linear-gradient(135deg, #1b3b22 0%, #2d7a3a 40%, #e8a73d 100%);
+            --header-border: #f5b342;
+            --accent-color: #f5b342;
+            --primary-dark: #1e4d2b;
+            --card-border: #3d8c40;
+            --card-bg-active: #e1f0e2;
+            --card-bg: #ffffff;
+            --footer-border: #f5b342;
+            --btn-bg: #1e4d2b;
+            --btn-hover: #2d7a3a;
+            --info-border: #f5b342;
+            --info-bg: #f6fcf3;
+            --link-color: #f5b342;
+            --shadow-color: rgba(45,122,58,0.15);
+            --presentacion-border: #3d8c40;
+            --presentacion-bg: #f6fcf3;
+            --descripcion-bg: #e1f0e2;
+            --carrusel-controls-bg: #e1f0e2;
+        }
+
+        /* ===== APLICACIÓN DE VARIABLES A TODOS LOS ELEMENTOS ===== */
+        header {
+            background: var(--header-bg);
+            border-bottom: 8px solid var(--header-border);
+            transition: background 0.6s ease, border-color 0.6s ease;
+        }
+
+        .presentacion {
+            background: var(--presentacion-bg);
+            border-left: 8px solid var(--presentacion-border);
+            transition: background 0.5s ease, border-color 0.5s ease;
+        }
+
+        .presentacion h2,
+        .presentacion .destacado,
+        .entidad-card h3,
+        .info-entidad h4,
+        .info-entidad .grid-info .item strong,
+        .donacion h2 {
+            color: var(--primary-dark);
+            transition: color 0.5s ease;
+        }
+
+        .presentacion .destacado {
+            background: var(--descripcion-bg);
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        .entidad-card {
+            background: var(--card-bg);
+            border-color: #e6d6c0;
+            box-shadow: 0 6px 16px var(--shadow-color);
+            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .entidad-card.activa {
+            border-color: var(--card-border);
+            background: var(--card-bg-active);
+            box-shadow: 0 0 0 3px var(--accent-color);
+        }
+
+        .info-entidad {
+            background: var(--info-bg);
+            border-color: #e6d6c0;
+            box-shadow: 0 8px 24px var(--shadow-color);
+            transition: background 0.5s, border-color 0.5s;
+        }
+
+        .info-entidad h4 {
+            border-bottom: 3px solid var(--info-border);
+        }
+
+        .info-entidad .grid-info .item {
+            background: var(--descripcion-bg);
+            transition: background 0.5s;
+        }
+
+        .info-entidad .descripcion {
+            background: var(--descripcion-bg);
+            transition: background 0.5s;
+        }
+
+        .carrusel-controls {
+            background: var(--carrusel-controls-bg);
+            transition: background 0.5s;
+        }
+
+        .carrusel-controls button {
+            background: var(--btn-bg);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .carrusel-controls button:hover {
+            background: var(--btn-hover);
+        }
+
+        .carrusel-indicadores span.activo {
+            background: var(--accent-color);
+        }
+
+        .donacion {
+            background: var(--info-bg);
+            border: 2px solid var(--card-border);
+            box-shadow: 0 6px 20px var(--shadow-color);
+            transition: background 0.5s, border-color 0.5s, box-shadow 0.5s;
+        }
+
+        .monto-btn {
+            background: var(--descripcion-bg);
+            border-color: #e6d6c0;
+            color: var(--text-color);
+            transition: background 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+        .monto-btn:hover {
+            background: var(--accent-color);
+            border-color: var(--card-border);
+        }
+
+        .monto-btn.seleccionado {
+            background: var(--btn-bg);
+            border-color: var(--btn-bg);
+            color: white;
+        }
+
+        .btn-donar {
+            background: var(--btn-bg);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-donar:hover {
+            background: var(--btn-hover);
+        }
+
+        footer {
+            border-top: 6px solid var(--footer-border);
+            transition: border-color 0.5s;
+        }
+
+        footer a {
+            color: var(--link-color);
+            transition: color 0.5s;
+        }
+
+        /* ===== RESTO DE ESTILOS (estructura) ===== */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .entidades {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            justify-content: center;
+            margin: 2.5rem 0;
+        }
+
+        .entidad-card {
+            border-radius: 16px;
+            padding: 1.8rem 1.5rem;
+            flex: 1 1 220px;
+            max-width: 280px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .entidad-card .icono {
+            font-size: 3.2rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .entidad-card p {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            transition: color 0.5s;
+        }
+
+        .info-entidad {
+            border-radius: 16px;
+            padding: 2rem 2.5rem;
+            margin: 1.5rem 0 2.5rem 0;
+            display: none;
+            animation: fadeSlide 0.4s ease;
+        }
+
+        .info-entidad.visible {
+            display: block;
+        }
+
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(12px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-entidad .grid-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem 2rem;
+        }
+
+        .info-entidad .grid-info .item {
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+        }
+
+        .info-entidad .grid-info .item strong {
+            display: block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-entidad .descripcion {
+            margin-top: 1.2rem;
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+            font-style: italic;
+        }
+
+        .carrusel-container {
+            margin: 2.5rem 0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px var(--shadow-color);
+            background: #1f1a16;
+            position: relative;
+            transition: box-shadow 0.5s;
+        }
+
+        .carrusel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+            will-change: transform;
+        }
+
+        .carrusel-slide {
+            min-width: 100%;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 1.5rem;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+            font-weight: 700;
+            font-size: 1.4rem;
+            text-align: center;
+            background-color: #2b241c;
+        }
+
+        .carrusel-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0.8rem 0 1.2rem 0;
+        }
+
+        .carrusel-controls button {
+            border: none;
+            color: white;
+            font-size: 1.6rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px var(--shadow-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carrusel-indicadores {
+            display: flex;
+            gap: 0.6rem;
+            align-items: center;
+        }
+
+        .carrusel-indicadores span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d4c5b2;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .carrusel-indicadores span.activo {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ===== DONACIONES ===== */
+        .donacion {
+            border-radius: 16px;
+            padding: 2.5rem 2.5rem;
+            margin: 2.5rem 0;
+            text-align: center;
+        }
+
+        .donacion h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .donacion p {
+            font-size: 1.05rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .donacion-opciones {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .monto-btn {
+            padding: 0.6rem 1.8rem;
+            border-radius: 40px;
+            font-family: 'Roboto Slab', serif;
+            font-weight: 700;
+            font-size: 1rem;
+            border: 2px solid;
+            cursor: pointer;
+        }
+
+        .monto-btn.custom {
+            border-style: dashed;
+        }
+
+        .donacion-input-group {
+            margin: 1rem auto 1.5rem auto;
+            max-width: 300px;
+            display: none;
+        }
+
+        .donacion-input-group input {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 2px solid #e6d6c0;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-family: 'Roboto Slab', serif;
+            text-align: center;
+            background: white;
+        }
+
+        .paypal-form {
+            margin-top: 0.5rem;
+        }
+
+        .btn-donar {
+            color: white;
+            border: none;
+            padding: 0.9rem 3.5rem;
+            border-radius: 40px;
+            font-family: 'Roboto Slab', serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            letter-spacing: 1px;
+        }
+
+        .donacion .nota {
+            font-size: 0.8rem;
+            color: #7a6a5a;
+            margin-top: 1.2rem;
+            font-style: italic;
+        }
+
+        /* ===== PIE DE PÁGINA ===== */
+        footer {
+            background: #2b1f16;
+            color: #e6d6c0;
+            text-align: center;
+            padding: 1.8rem 1rem;
+            margin-top: 2rem;
+            font-size: 0.95rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.4rem; }
+            .entidades { flex-direction: column; align-items: center; }
+            .entidad-card { max-width: 100%; width: 100%; }
+            .info-entidad .grid-info { grid-template-columns: 1fr; }
+            .carrusel-slide { height: 280px; font-size: 1rem; }
+            .donacion { padding: 1.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            header h1 { font-size: 1.8rem; }
+            .presentacion { padding: 1.2rem; }
+            .info-entidad { padding: 1.2rem; }
+            .donacion-opciones { gap: 0.5rem; }
+            .monto-btn { padding: 0.5rem 1.2rem; font-size: 0.9rem; }
+            .btn-donar { padding: 0.7rem 2rem; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body class="theme-tolteca">
+
+<header>
+    <h1>
+        Memnosyne México
+        <small>Red Cultural · Teotihuacán · Maya</small>
+    </h1>
+    <div class="tagline">⚡ Evolución consciente · Campus sin muros</div>
+</header>
+
+<div class="container">
+
+    <!-- ===== PRESENTACIÓN ===== -->
+    <section class="presentacion">
+        <h2>Memnosyne Institute</h2>
+        <p><strong>Identidad y misión:</strong> Impulsar una evolución consciente de la humanidad mediante colaboración pacífica en siete áreas: culturas indígenas, ambiente/ciencia/economía, <em>interfaith inquiry</em>, arte, salud/medicina, espiritualidad y <em>outreach</em>, bajo una lógica <strong>“global/local”</strong> y de <strong>“Campus without Walls”</strong>.</p>
+        <p><strong>Historia y geografía:</strong> Fundación reportada entre 2006 y 2008 (según fuentes). Base en Dallas, con capítulo en Reino Unido. Opera en Texas, Reino Unido y proyectos indígenas en Teotihuacán y Felipe Carrillo Puerto (Quintana Roo). Programas estrella: <strong>Green Source</strong> y <strong>Food Source</strong>.</p>
+        <p><strong>Beneficiarios y financiamiento:</strong> Donaciones deducibles, patrocinios. En 2024, CauseIQ reporta <span class="destacado">USD 746,402</span> en ingresos y <span class="destacado">3,080,390 libras</span> de alimentos canalizadas. En México, apoyo documentado de <strong>USD 1,000</strong> a Raxalaj/U Kúuchil y <strong>USD 3,330</strong> a un proyecto juvenil local.</p>
+        <p style="margin-top:0.5rem;"><em>“Menos folclor, más territorio, aprendizaje, salud, arte y continuidad comunitaria.”</em></p>
+    </section>
+
+    <!-- ===== ENTIDADES ===== -->
+    <h2 style="font-family:'Playfair Display',serif; color:var(--primary-dark); text-align:center; margin-bottom:0.5rem; transition: color 0.5s ease;">🌿 Nuestras entidades asociadas</h2>
+    <p style="text-align:center; color:var(--text-color); margin-bottom:1.5rem; transition: color 0.5s;">Selecciona una para conocer más</p>
+
+    <div class="entidades" id="entidadesContainer">
+        <div class="entidad-card activa" data-entidad="tolteca">
+            <div class="icono">🏛️</div>
+            <h3>Centro Cultural Tolteca</h3>
+            <p>Teotihuacán · Danza, ceremonias, museo</p>
+        </div>
+        <div class="entidad-card" data-entidad="memnosyne">
+            <div class="icono">🌎</div>
+            <h3>Memnosyne Institute</h3>
+            <p>Dallas · Plataforma internacional</p>
+        </div>
+        <div class="entidad-card" data-entidad="ukuuchil">
+            <div class="icono">🌿</div>
+            <h3>U Kúuchil K Chʼílbaloʼon</h3>
+            <p>Felipe Carrillo Puerto · Maya</p>
+        </div>
+    </div>
+
+    <!-- ===== INFO ENTIDAD ===== -->
+    <div class="info-entidad visible" id="infoEntidad">
+        <!-- Se llena con JavaScript -->
+    </div>
+
+    <!-- ===== CARRUSEL ===== -->
+    <div class="carrusel-container" id="carruselContainer">
+        <div class="carrusel-track" id="carruselTrack">
+            <!-- Generado por JS -->
+        </div>
+        <div class="carrusel-controls">
+            <button id="prevBtn">◀</button>
+            <div class="carrusel-indicadores" id="indicadores"></div>
+            <button id="nextBtn">▶</button>
+        </div>
+    </div>
+
+    <!-- ===== DONACIONES ===== -->
+    <section class="donacion" id="donacionSection">
+        <h2>❤️ Apoya nuestra red cultural</h2>
+        <p>Tu donación ayuda a preservar las tradiciones, la salud comunitaria y la educación en Teotihuacán y la zona maya.</p>
+        
+        <div class="donacion-opciones">
+            <button class="monto-btn" data-monto="10">$10 USD</button>
+            <button class="monto-btn seleccionado" data-monto="25">$25 USD</button>
+            <button class="monto-btn" data-monto="50">$50 USD</button>
+            <button class="monto-btn custom" data-monto="custom">✏️ Otro monto</button>
+        </div>
+
+        <div class="donacion-input-group" id="customInputGroup">
+            <input type="number" id="montoCustom" placeholder="Escribe el monto (USD)" min="1" step="0.01">
+        </div>
+
+        <!-- Formulario PayPal funcional -->
+        <form action="https://www.paypal.com/donate" method="post" target="_top" class="paypal-form">
+            <input type="hidden" name="business" value="TU_EMAIL_PAYPAL_AQUI">
+            <input type="hidden" name="currency_code" value="USD">
+            <input type="hidden" name="item_name" value="Donación a Memnosyne México Red Cultural">
+            <input type="hidden" name="cmd" value="_donations">
+            <input type="hidden" id="donationAmount" name="amount" value="25.00">
+            <button type="submit" class="btn-donar">Donar con PayPal</button>
+        </form>
+        <p class="nota">* Reemplaza <strong>TU_EMAIL_PAYPAL_AQUI</strong> por tu correo de PayPal para recibir donaciones.</p>
+    </section>
+
+</div>
+
+<footer>
+    <p>Memnosyne México Red Cultural · Con el corazón en Teotihuacán y la selva maya</p>
+    <p style="font-size:0.8rem; opacity:0.7;">Diseño inspirado en la riqueza cultural de México</p>
+</footer>
+
+<script>
+    // ============================================================
+    // DATOS DE ENTIDADES
+    // ============================================================
+    const entidadesData = {
+        tolteca: {
+            nombre: "Centro Cultural Tolteca de Teotihuacan AC",
+            sede: "San Sebastián Xolalpa / San Juan Teotihuacán, Edomex.",
+            foco: "Danza, ceremonias, museo tolteca, juego de pelota, educación cultural y recorridos.",
+            publico: "Juventudes y comunidades alrededor de Teotihuacán; visitantes nacionales e internacionales.",
+            contacto: "Facebook oficial · Tel. 59495",
+            descripcion: "Organización tolteca de preservación cultural. Combina ceremonialidad, formación artística, pedagogía comunitaria y mediación turística-cultural. Hitos: Primer Museo Tolteca, cancha monumental Tlashko (2018), ceremonias de bendición de semillas, danza ritual, enseñanza de tambor y flauta."
+        },
+        memnosyne: {
+            nombre: "Memnosyne Institute",
+            sede: "Dallas, Texas · Capítulo en Reino Unido",
+            foco: "Culturas indígenas, ambiente, interfaith, arte, salud, espiritualidad, outreach. Green Source y Food Source.",
+            publico: "Público global, comunidades indígenas asociadas y beneficiarios en Texas y otros países.",
+            contacto: "info@memnosyneinstitute.org · Sitio oficial",
+            descripcion: "ONG/plataforma internacional de colaboración cultural. Misión: evolución consciente mediante 7 áreas. Financiamiento: donaciones deducibles. En 2024: USD 746,402 ingresos y 3M libras de alimentos canalizadas. Apoyo documentado a centros en México."
+        },
+        ukuuchil: {
+            nombre: "Centro Comunitario U Kúuchil K Chʼílbaloʼon",
+            sede: "Felipe Carrillo Puerto, Quintana Roo",
+            foco: "Salud comunitaria, medicina tradicional, Escuelita Maya, arte, literatura, fotografía, cine y defensa territorial.",
+            publico: "Niñas, niños, juventudes, abuelas y abuelos, mujeres y comunidades mayas de la zona masewal.",
+            contacto: "Facebook artemaya.raxalajmayab · Tel. 983 106 9998",
+            descripcion: "Centro maya que busca el buen vivir y la vida digna. Fundado en 2009. Proyectos: Le xíiwow ku kanáant ko’on, Escuelita Maya desde 2020, talleres literarios, producción audiovisual, festival comunitario y exposición fotográfica 'Reflejos' (2016 y reactivada en 2026)."
+        }
+    };
+
+    // ============================================================
+    // IMÁGENES POR ENTIDAD
+    // ============================================================
+    const imagenesPorEntidad = {
+        tolteca: [
+            "https://images.unsplash.com/photo-1587590227264-0ac64ce63ce8?w=1200&h=400&fit=crop&crop=center",
+            "https://images.unsplash.com/photo-1620740839971-3c5d5b3daabf?w=1200&h=400&fit=crop&crop=center",
+            "https://images.unsplash.com/photo-1576900684516-1a2ba9854b96?w=1200&h=400&fit=crop&crop=center"
+        ],
+        memnosyne: [
+            "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1200&h=400&fit=crop&crop=center",
+            "https://images.unsplash.com/photo-1532386236358-a33d8a9434e3?w=1200&h=400&fit=crop&crop=center",
+            "https://images.unsplash.com/photo-1599058917765-a780eda07a3e?w=1200&h=400&fit=crop&crop=center"
+        ],
+        ukuuchil: [
+            "https://images.unsplash.com/photo-1589523050129-06b6f9f6ab18?w=1200&h=400&fit=crop&crop=center",
+            "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200&h=400&fit=crop&crop=center",
+            "https://images.unsplash.com/photo-1590086783191-a0694c7d1e6e?w=1200&h=400&fit=crop&crop=center"
+        ]
+    };
+
+    // ============================================================
+    // VARIABLES GLOBALES
+    // ============================================================
+    let entidadSeleccionada = 'tolteca';
+    let indiceCarrusel = 0;
+    let imagenesActuales = [];
+
+    // ============================================================
+    // FUNCIONES
+    // ============================================================
+    function mostrarInfo(entidadClave) {
+        const data = entidadesData[entidadClave];
+        if (!data) return;
+
+        // Cambiar el tema en el body (esto cambia TODOS los colores)
+        document.body.className = 'theme-' + entidadClave;
+
+        // Actualizar contenido de info
+        const contenedor = document.getElementById('infoEntidad');
+        contenedor.innerHTML = `
+            <h4>${data.nombre}</h4>
+            <div class="grid-info">
+                <div class="item"><strong>Sede</strong><span>${data.sede}</span></div>
+                <div class="item"><strong>Foco temático</strong><span>${data.foco}</span></div>
+                <div class="item"><strong>Público</strong><span>${data.publico}</span></div>
+                <div class="item"><strong>Contacto</strong><span>${data.contacto}</span></div>
+            </div>
+            <div class="descripcion">${data.descripcion}</div>
+        `;
+        contenedor.classList.add('visible');
+
+        // Resaltar tarjeta
+        document.querySelectorAll('.entidad-card').forEach(card => {
+            card.classList.remove('activa');
+            if (card.dataset.entidad === entidadClave) card.classList.add('activa');
+        });
+
+        // Actualizar carrusel
+        actualizarCarrusel(entidadClave);
+    }
+
+    function actualizarCarrusel(entidadClave) {
+        const imagenes = imagenesPorEntidad[entidadClave];
+        if (!imagenes || imagenes.length === 0) return;
+        imagenesActuales = imagenes;
+        indiceCarrusel = 0;
+        renderizarCarrusel();
+    }
+
+    function renderizarCarrusel() {
+        const track = document.getElementById('carruselTrack');
+        const indicadores = document.getElementById('indicadores');
+        track.innerHTML = '';
+        indicadores.innerHTML = '';
+
+        imagenesActuales.forEach((url, idx) => {
+            const slide = document.createElement('div');
+            slide.className = 'carrusel-slide';
+            slide.style.backgroundImage = `url('${url}')`;
+            slide.textContent = idx === 0 ? '✨ Patrimonio vivo' : '';
+            track.appendChild(slide);
+
+            const dot = document.createElement('span');
+            dot.dataset.index = idx;
+            if (idx === 0) dot.classList.add('activo');
+            dot.addEventListener('click', () => irASlide(idx));
+            indicadores.appendChild(dot);
+        });
+
+        irASlide(0);
+    }
+
+    function irASlide(index) {
+        if (imagenesActuales.length === 0) return;
+        if (index < 0) index = imagenesActuales.length - 1;
+        if (index >= imagenesActuales.length) index = 0;
+        indiceCarrusel = index;
+
+        const track = document.getElementById('carruselTrack');
+        track.style.transform = `translateX(-${indiceCarrusel * 100}%)`;
+
+        document.querySelectorAll('#indicadores span').forEach((dot, i) => {
+            dot.classList.toggle('activo', i === indiceCarrusel);
+        });
+    }
+
+    function slideSiguiente() { irASlide(indiceCarrusel + 1); }
+    function slideAnterior() { irASlide(indiceCarrusel - 1); }
+
+    // ============================================================
+    // LÓGICA DE DONACIONES
+    // ============================================================
+    function initDonacion() {
+        const montoBtns = document.querySelectorAll('.monto-btn');
+        const customGroup = document.getElementById('customInputGroup');
+        const customInput = document.getElementById('montoCustom');
+        const hiddenAmount = document.getElementById('donationAmount');
+
+        montoBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const monto = this.dataset.monto;
+                montoBtns.forEach(b => b.classList.remove('seleccionado'));
+
+                if (monto === 'custom') {
+                    customGroup.style.display = 'block';
+                    this.classList.add('seleccionado');
+                    if (customInput.value && parseFloat(customInput.value) > 0) {
+                        hiddenAmount.value = parseFloat(customInput.value).toFixed(2);
+                    } else {
+                        hiddenAmount.value = '0.00';
+                    }
+                } else {
+                    customGroup.style.display = 'none';
+                    this.classList.add('seleccionado');
+                    hiddenAmount.value = parseFloat(monto).toFixed(2);
+                }
+            });
+        });
+
+        customInput.addEventListener('input', function() {
+            if (this.value && parseFloat(this.value) > 0) {
+                document.getElementById('donationAmount').value = parseFloat(this.value).toFixed(2);
+                const customBtn = document.querySelector('.monto-btn.custom');
+                if (!customBtn.classList.contains('seleccionado')) {
+                    document.querySelectorAll('.monto-btn').forEach(b => b.classList.remove('seleccionado'));
+                    customBtn.classList.add('seleccionado');
+                }
+            }
+        });
+    }
+
+    // ============================================================
+    // ARRANQUE
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        mostrarInfo('tolteca');
+
+        document.querySelectorAll('.entidad-card').forEach(card => {
+            card.addEventListener('click', function() {
+                mostrarInfo(this.dataset.entidad);
+            });
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', slideAnterior);
+        document.getElementById('nextBtn').addEventListener('click', slideSiguiente);
+
+        setInterval(() => {
+            if (imagenesActuales.length > 1) slideSiguiente();
+        }, 5000);
+
+        initDonacion();
+    });
+</script>
+</body>
+</html>
